@@ -64,10 +64,13 @@ IF(UNIX)
     TARGET_LINK_LIBRARIES(reconstructor m port_ini)
 ENDIF(UNIX)
 
-
 ADD_EXECUTABLE(reconstruction reconstruction.cc)
 TARGET_LINK_LIBRARIES(reconstruction reconstructor)
 INSTALL_TARGETS(/bin reconstruction)
+
+ADD_EXECUTABLE(nnls_test nnls_test.cc nnls.cc)
+ADD_EXECUTABLE(vnl_nnls_test vnl_nnls_test.cc vnl_utils.cc nnls.cc)
+TARGET_LINK_LIBRARIES(vnl_nnls_test vnl)
 
 #make install
 SET(CMAKE_INSTALL_PREFIX ${DW-MRI_SOURCE_DIR})
@@ -79,26 +82,3 @@ ELSE("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" GREATER 1.5)
           "This version of CMake is too old to build InsightApplications.  "
           "Please upgrade to at least CMake 1.6.")
 ENDIF("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" GREATER 1.5)
-
-#OPTION(BUILD_API_SHARED "Build the Reconstructor API libraries shared." OFF)
-#IF(BUILD_API_SHARED)
-#  SET(API_LIBRARY_TYPE SHARED)
-#ELSE(BUILD_API_SHARED)
-#  SET(API_LIBRARY_TYPE STATIC)
-#ENDIF(BUILD_API_SHARED)
-
-#ADD_EXECUTABLE(test_interpolation test_interpolation.cpp)
-#TARGET_LINK_LIBRARIES(test_interpolation port_ini vnl_algo vnl vcl)
-
-#ADD_EXECUTABLE(computeS0 computeS0.cpp)
-#TARGET_LINK_LIBRARIES(computeS0 vnl_algo vnl vcl)
-
-#ADD_EXECUTABLE(test_api test_api.c)
-#TARGET_LINK_LIBRARIES(test_api reconstructor_api)
-
-#ADD_EXECUTABLE(testNNLS testNNLS.cpp nnls.cc utilities.cpp)
-#TARGET_LINK_LIBRARIES(testNNLS vnl_algo vnl vcl)
-
-#IF(UNIX)
-#  TARGET_LINK_LIBRARIES(flt2itk4d m pthread g2c )
-#ENDIF(UNIX)

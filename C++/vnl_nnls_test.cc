@@ -1,7 +1,7 @@
 #include <fstream>
 #include <iostream>
 #include <vnl/vnl_matrix.h>
-#include <vnl/vnl_matrix.h>
+#include <vnl/vnl_vector.h>
 
 #include "vnl_utils.h"
 
@@ -12,12 +12,15 @@ int main(int argc, char* argv[]) {
     cerr<< "Usage: vnl_nnls_test A b x" << endl;
     return -1;
   }
-  vnl_matrix<double> A;
-  A.read_ascii(ifstream(argv[1], ios_base::in));
-  vnl_vector<double> b;
-  b.read_ascii(ifstream(argv[2], ios_base::in));
-  vnl_vector<double> x;
+  vnl_matrix<float> A;
+  ifstream infile_A(argv[1]);
+  A.read_ascii(infile_A);
+  vnl_vector<float> b;
+  ifstream infile_b(argv[2]);
+  b.read_ascii(infile_b);
+  vnl_vector<float> x;
   x.set_size(A.cols());
   vnl_nnls(A, b, x);
-  ofstream(argv[3], ios_base::out)<<x;
+  ofstream outfile(argv[3]);
+  outfile << x;
 }
